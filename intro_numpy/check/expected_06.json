@@ -1,0 +1,86 @@
+{
+ "q1": {
+  "x": {
+   "__kind__": "ndarray",
+   "dtype": "int64",
+   "data": [
+    1,
+    2,
+    3
+   ]
+  }
+ },
+ "q2": {
+  "x": {
+   "__kind__": "ndarray",
+   "dtype": "int64",
+   "data": [
+    1,
+    2,
+    3,
+    4
+   ]
+  }
+ },
+ "q3": {
+  "x": {
+   "__kind__": "ndarray",
+   "dtype": "float64",
+   "data": [
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5,
+    4.0,
+    4.5,
+    5.0
+   ]
+  }
+ },
+ "q4": {
+  "x": {
+   "__kind__": "ndarray",
+   "dtype": "int64",
+   "data": [
+    3,
+    5,
+    7,
+    9,
+    11,
+    13
+   ]
+  }
+ },
+ "q5": {
+  "x": {
+   "__kind__": "ndarray",
+   "dtype": "float64",
+   "data": [
+    1.0,
+    3.25,
+    5.5,
+    7.75,
+    10.0
+   ]
+  }
+ },
+ "__opts__": {
+  "q1": {
+   "shape": "loose"
+  },
+  "q2": {
+   "shape": "loose"
+  },
+  "q3": {
+   "shape": "loose"
+  },
+  "q4": {
+   "shape": "loose"
+  },
+  "q5": {
+   "shape": "loose"
+  }
+ }
+}

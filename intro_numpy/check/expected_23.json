@@ -1,0 +1,19 @@
+{
+ "q1": {
+  "sp": -228.4028600608718
+ },
+ "q2": {
+  "movaway": {
+   "__kind__": "opaque",
+   "repr": "array(['HD   5211', 'HD  56030', 'HD  94028'], dtype='<U9')"
+  }
+ },
+ "__opts__": {
+  "q1": {
+   "shape": "loose"
+  },
+  "q2": {
+   "shape": "loose"
+  }
+ }
+}

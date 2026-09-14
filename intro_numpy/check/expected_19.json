@@ -1,0 +1,72 @@
+{
+ "q1": {
+  "test": true
+ },
+ "q2": {
+  "test": {
+   "__kind__": "ndarray",
+   "dtype": "bool",
+   "data": [
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false
+   ]
+  }
+ },
+ "q3": {
+  "v": {
+   "__kind__": "ndarray",
+   "dtype": "float64",
+   "data": [
+    1.5177,
+    3.6375
+   ]
+  }
+ },
+ "q4": {
+  "s": {
+   "__kind__": "ndarray",
+   "dtype": "float64",
+   "data": [
+    19.0,
+    20.0
+   ]
+  }
+ },
+ "q5": {
+  "v1": {
+   "__kind__": "ndarray",
+   "dtype": "float64",
+   "data": [
+    4.0753,
+    6.6678,
+    0.0,
+    0.0,
+    4.7243,
+    9.0698,
+    5.3002
+   ]
+  }
+ },
+ "__opts__": {
+  "q1": {
+   "shape": "loose"
+  },
+  "q2": {
+   "shape": "loose"
+  },
+  "q3": {
+   "shape": "loose"
+  },
+  "q4": {
+   "shape": "loose"
+  },
+  "q5": {
+   "shape": "loose"
+  }
+ }
+}

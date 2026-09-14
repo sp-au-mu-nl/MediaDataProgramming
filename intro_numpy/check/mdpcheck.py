@@ -15,7 +15,7 @@ import urllib.request
 
 import numpy as np
 
-RAW = "https://raw.githubusercontent.com/sp-au-mu-nl/MediaDataProgramming/main/intro_numpy"
+RAW = "https://raw.githubusercontent.com/slp-hu/MediaDataProgramming/main/intro_numpy"
 
 _OK = "\u2705"
 _NG = "\u274c"
@@ -50,8 +50,30 @@ def _shape_of(v):
     return a.shape
 
 
-def _same(want, got, rtol=1e-6, atol=1e-9):
-    """(一致したか, 理由) を返す。理由は '形' か '値' か ''。"""
+def _shape_hint(want, got):
+    """形が違うとき、何を直せばよいかを一言で返す。"""
+    w, g = _shape_of(want), _shape_of(got)
+    if w == g:
+        return ""
+    if len(w) == 2 and w[0] == 1 and len(g) == 1 and w[1] == g[0]:
+        return "行ベクトルは np.array([[...]]) のように [ ] を二重にします。"
+    if len(w) == 2 and w[1] == 1 and len(g) == 1 and w[0] == g[0]:
+        return "列ベクトルは np.array([[...]]).T のように作ります。"
+    if len(w) == 1 and len(g) == 2 and 1 in g and w[0] == max(g):
+        return "ここは 1 次元の配列です。[ ] は一重にします。"
+    try:
+        if int(np.prod(w)) == int(np.prod(g)):
+            return "要素は合っていますが、並びの形が違います。"
+    except Exception:
+        pass
+    return ""
+
+
+def _same(want, got, rtol=1e-6, atol=1e-9, loose=False):
+    """(一致したか, 理由) を返す。理由は '形' か '値' か ''。
+
+    loose=True のときは形の違いを問わず、並べた要素だけを比べる。
+    """
     if isinstance(want, _Opaque):
         return True, ""
     if isinstance(want, str) or isinstance(got, str):
@@ -68,7 +90,11 @@ def _same(want, got, rtol=1e-6, atol=1e-9):
     except Exception:
         return (want == got), ("" if want == got else "値")
 
-    if w.shape != g.shape:
+    if loose:
+        if w.size != g.size:
+            return False, "形"
+        w, g = w.reshape(-1), g.reshape(-1)
+    elif w.shape != g.shape:
         return False, "形"
     if w.dtype.kind in "bUSO" or g.dtype.kind in "bUSO":
         ok = bool(np.all(w == g))
@@ -87,7 +113,8 @@ def _same(want, got, rtol=1e-6, atol=1e-9):
 
 class Checker:
     def __init__(self, spec, nb):
-        self.spec = spec
+        self.opts = spec.get("__opts__", {})
+        self.spec = {k: v for k, v in spec.items() if not k.startswith("__")}
         self.nb = nb
 
     def __call__(self, task=None):
@@ -102,18 +129,22 @@ class Checker:
             print("%s %s というタスクはありません" % (_NG, task))
             return
 
+        loose = self.opts.get(task, {}).get("shape") == "loose"
         msgs = []
         for name, value in want.items():
             if name not in env:
                 msgs.append("変数 %s が定義されていません。" % name)
                 continue
-            ok, why = _same(_decode(value), env[name])
+            w = _decode(value)
+            ok, why = _same(w, env[name], loose=loose)
             if ok:
                 continue
             if why == "形":
+                hint = _shape_hint(w, env[name])
                 msgs.append(
-                    "変数 %s の形が正しくありません。（正しくは %s、いまは %s）"
-                    % (name, _shape_of(_decode(value)), _shape_of(env[name]))
+                    "変数 %s の形が正しくありません。（正しくは %s、いまは %s）%s"
+                    % (name, _shape_of(w), _shape_of(env[name]),
+                       ("\n   " + hint) if hint else "")
                 )
             else:
                 msgs.append("変数 %s の値が正しくありません。" % name)
